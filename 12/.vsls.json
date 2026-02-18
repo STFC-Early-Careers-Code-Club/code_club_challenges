@@ -1,0 +1,6 @@
+{
+    "excludeFiles": [
+        "solution/**",
+        ".vsls.json"
+    ]
+}
