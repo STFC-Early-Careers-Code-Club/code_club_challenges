@@ -1,27 +1,5 @@
 # Rust Code Challenge: Weather Station Monitor
 
-## Overview
-
-In this challenge, you'll build a weather station monitoring system in Rust, putting into practice the key concepts from the [Rust guest lecture](https://georgeroe.github.io/rust-mmu-guest-lecture/).
-
-## Concepts Tested
-
-| TODO | Rust Concept | Lecture Topic |
-|------|-------------|---------------|
-| 1 | Enums with data (ADTs) | Algebraic Enums |
-| 2 | `Result<T, E>` error handling | Results over Exceptions |
-| 3 | Creating enum variants | Algebraic Enums |
-| 4 | Pattern matching (`match`) | Algebraic Enums |
-| 5 | Traits | No Inheritance |
-| 6 | `Option<T>` (no null) | Nullability |
-| 7 | Iterator chains & closures | Zero-Cost Abstractions |
-
-You'll also encounter: structs, `impl` blocks, immutability by default, ownership, and borrowing (`&self` vs `&mut self`).
-
-## Prerequisites
-
-- Rust toolchain installed ([rustup.rs](https://rustup.rs))
-- No external dependencies needed
 
 ## Your Task
 

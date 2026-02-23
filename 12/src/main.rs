@@ -42,6 +42,9 @@ struct Station {
 #[derive(Debug)]
 enum WeatherAlert {
     Clear,
+    HighTemperature(f64),
+    HighWind(f64),
+    Storm { wind_speed: f64, rainfall_mm: f64 }
     // Add your variants here
 }
 
@@ -69,11 +72,19 @@ impl Reading {
     fn validate(temperature: f64, wind_speed: f64, humidity: f64) -> Result<Reading, String> {
         // Replace this: add validation checks before creating the Reading.
         // Return Err("message".to_string()) for invalid values.
-        Ok(Reading {
-            temperature,
-            wind_speed,
-            humidity,
-        })
+        if temperature < -100.0 ||  temperature > 60.0 {
+            Err("Temperature out of range".to_string())
+        } else if wind_speed < 0.0 {
+            Err("Wind speed high".to_string())
+        } else if humidity < 0.0 || humidity > 100.0 {
+            Err("Humidity warning".to_string())
+        } else {
+            Ok(Reading {
+                temperature,
+                wind_speed,
+                humidity,
+            })
+        }
     }
 
     // ========================================================
@@ -90,8 +101,18 @@ impl Reading {
     // Note: Requires TODO 1 to be completed first!
     // ========================================================
     fn check_alert(&self) -> WeatherAlert {
-        // Replace with condition checks returning the right variant
-        WeatherAlert::Clear
+        if self.wind_speed > 80.0 && self.temperature < 5.0 {
+            WeatherAlert::Storm {
+                wind_speed: self.wind_speed,
+                rainfall_mm: self.humidity * 0.5
+            }
+        } else if self.temperature > 35.0 {
+            WeatherAlert::HighTemperature(self.temperature)
+        } else if self.wind_speed > 60.0 {
+            WeatherAlert::HighWind(self.wind_speed)
+        } else {
+            WeatherAlert::Clear
+        }
     }
 }
 
@@ -118,6 +139,15 @@ impl Reading {
 fn describe_alert(alert: &WeatherAlert) -> String {
     match alert {
         WeatherAlert::Clear => String::from("All clear - no alerts"),
+        WeatherAlert::HighTemperature(temp) =>
+            format!("HIGH TEMP WARNING: {temp:.1}°C"),
+
+        WeatherAlert::HighWind(speed) =>
+            format!("HIGH WIND WARNING: {speed:.1} km/h"),
+
+        WeatherAlert::Storm { wind_speed, rainfall_mm } =>
+            format!("STORM ALERT: wind {wind_speed:.1} km/h, rain {rainfall_mm:.1}mm"),
+
         _ => String::from("Unknown alert"), // TODO 4: replace with specific arms
     }
 }
@@ -144,7 +174,18 @@ trait Summary {
 impl Summary for Station {
     fn summary(&self) -> String {
         // Replace this placeholder with a proper formatted summary
-        format!("Station '{}': (summary not yet implemented)", self.name)
+        format!(
+            "Station '{}':{}",
+            self.name,
+            self.readings
+                .iter()
+                .map(|r| format!(
+                    "\n{}",
+                    describe_alert(&r.check_alert())
+                ))
+                .collect::<Vec<String>>()
+                .join("")
+        )
     }
 }
 
