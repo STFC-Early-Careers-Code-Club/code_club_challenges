@@ -191,5 +191,62 @@ def demo():
     pass
 
 
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+# PHASE 2: EXTENSION TODOs
+# You're from the OOP group — now extend this FP code!
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+# ============================================================
+# EXT 1: Add new experiment data
+#
+# Add 4 new Trial entries from a "Basement" lab to
+# EXPERIMENT_DATA. Use realistic values:
+#   - Various pendulum lengths (e.g., 0.75m, 1.25m)
+#   - 10 swings each
+#   - notes = "clean"
+#   - Use T = 2π√(L/g) with g ≈ 9.81 to generate realistic
+#     total times (add small random-ish variation)
+#
+# The new data should automatically appear in all analyses.
+# ============================================================
+
+
+
+# ============================================================
+# EXT 2: Add standard deviation calculation
+#
+# Create: std_deviation_g(trials) -> float
+#
+# Formula: σ = √( Σ(gᵢ - ḡ)² / n )
+#   where ḡ = average_g(trials), n = len(trials)
+#
+# Must use reduce — no for loops!
+# Display std dev for each location in the demo output.
+#
+# Notice: adding a new FUNCTION doesn't require changing
+#         anything that already exists. How does this feel
+#         compared to OOP?
+# ============================================================
+
+
+
+# ============================================================
+# EXT 3: Find the most precise location
+#
+# Create: most_precise_location(trials) -> str
+#
+# The most precise location has the lowest standard deviation
+# of g across its trials.
+#
+# Steps:
+#   1. Use trials_by_location() to group the data
+#   2. Use std_deviation_g() on each group
+#   3. Use min() with a key function to find the winner
+#
+# Print a precision ranking of all locations in the demo.
+# ============================================================
+
+
+
 if __name__ == "__main__":
     demo()

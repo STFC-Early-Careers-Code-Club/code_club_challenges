@@ -149,5 +149,71 @@ def demo():
     print(f"\n{'=' * 55}")
 
 
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+# PHASE 2 EXTENSIONS
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+# ── EXT 1: New experiment data ─────────────────────────────
+
+BASEMENT_DATA = [
+    Trial(16, 0.75, 10, 17.38, "Basement", "clean"),
+    Trial(17, 0.75, 10, 17.42, "Basement", "clean"),
+    Trial(18, 1.25, 10, 22.42, "Basement", "clean"),
+    Trial(19, 1.25, 10, 22.38, "Basement", "clean"),
+]
+
+ALL_DATA = [*EXPERIMENT_DATA, *BASEMENT_DATA]
+
+
+# ── EXT 2: Standard deviation ─────────────────────────────
+
+def std_deviation_g(trials):
+    """Standard deviation of g values: σ = √(Σ(gᵢ - ḡ)² / n)."""
+    if not trials:
+        return 0.0
+    mean = average_g(trials)
+    sum_sq = reduce(
+        lambda acc, t: acc + (calculate_g(t) - mean) ** 2,
+        trials,
+        0.0,
+    )
+    return math.sqrt(sum_sq / len(trials))
+
+
+# ── EXT 3: Most precise location ──────────────────────────
+
+def most_precise_location(trials):
+    """Find location with lowest std deviation of g."""
+    grouped = trials_by_location(trials)
+    return min(grouped.keys(), key=lambda loc: std_deviation_g(grouped[loc]))
+
+
+def demo_extensions():
+    print("\n" + "=" * 55)
+    print("      PHASE 2 EXTENSIONS")
+    print("=" * 55)
+
+    # Precision ranking
+    grouped = trials_by_location(ALL_DATA)
+    print(f"\n  Precision Ranking (by std deviation of g):")
+    print(f"  {'—' * 50}")
+
+    ranked = sorted(grouped.keys(), key=lambda loc: std_deviation_g(grouped[loc]))
+    for i, loc in enumerate(ranked, 1):
+        trials = grouped[loc]
+        avg = average_g(trials)
+        std = std_deviation_g(trials)
+        print(
+            f"    {i}. {loc:10s} | {len(trials):2d} trials | "
+            f"avg g = {avg:.4f} | σ = {std:.4f} m/s²"
+        )
+
+    best = most_precise_location(ALL_DATA)
+    print(f"\n  Most precise location: {best}")
+
+    print(f"\n{'=' * 55}")
+
+
 if __name__ == "__main__":
     demo()
+    demo_extensions()

@@ -131,23 +131,20 @@ Analyze real-ish pendulum experiment data to determine gravitational acceleratio
     Error     = 0.30%
 ```
 
-## Extension Ideas
+## Phase 2: Extension Tasks
 
-The whole point of Phase 2 is to feel the friction (or ease!) of extending code written in the other paradigm. Here are some ideas:
+Each side gets 3 parallel TODOs (already in the starter files). The tasks are equivalent so you can compare the experience directly.
 
-### Extending the OOP Projectile Simulator
-- Add a new planet (Jupiter, Venus, your own fictional planet)
-- Add a new projectile type (Rocket, Arrow, Bowling Ball)
-- Add air resistance / drag force as a new `Environment` strategy
-- Add an ASCII trajectory plot
-- Add a comparison mode (same projectile, all planets side-by-side)
+| # | What | On Projectile (OOP) | On Pendulum (FP) |
+|---|------|---------------------|-------------------|
+| EXT 1 | Add new data | Add Jupiter (g = 24.79 m/s²) as a new planet class | Add 4 new Trial entries from a "Basement" lab |
+| EXT 2 | Add new operation | Add `mass_kg` property to all projectiles + launch energy (KE = 0.5mv²) | Add `std_deviation_g(trials)` function using reduce |
+| EXT 3 | Add analysis | Find optimal launch angle (max range) for each projectile/planet combo | Find the most precise location (lowest std dev) |
 
-### Extending the FP Pendulum Analyzer
-- Add standard deviation / uncertainty calculation
-- Add a function that finds the best trial (closest to accepted g)
-- Add a new filter (e.g., only trials with length > 1m)
-- Add a `format_report()` function that produces a clean summary string
-- Add support for a second experiment type (e.g., free-fall data)
+**Pay attention to the friction:**
+- **EXT 1** tests adding a new *variant*. In OOP this is just a new class. In FP you add data to the list. Both are easy — but notice the difference in how it's done.
+- **EXT 2** tests adding a new *operation across all types*. In FP this is just a new function. In OOP you have to modify the abstract base class AND every subclass. This is the **Expression Problem** in action.
+- **EXT 3** ties it all together with an analytical feature.
 
 ## Running Your Code
 

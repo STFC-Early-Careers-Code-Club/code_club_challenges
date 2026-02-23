@@ -212,5 +212,92 @@ def demo():
     print(f"\n{'=' * 62}")
 
 
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+# PHASE 2 EXTENSIONS
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+# ── EXT 1: Jupiter ─────────────────────────────────────────
+
+class Jupiter(GravityModel):
+    @property
+    def name(self) -> str:
+        return "Jupiter"
+
+    @property
+    def g(self) -> float:
+        return 24.79
+
+
+# ── EXT 2: Mass + launch energy ────────────────────────────
+# NOTE: This requires modifying the Projectile ABC above to add:
+#
+#   @property
+#   @abstractmethod
+#   def mass_kg(self) -> float:
+#       pass
+#
+# And implementing mass_kg in Baseball (0.145), Cannonball (5.0),
+# GolfBall (0.046). Then use this function:
+
+def launch_energy(projectile):
+    """KE = 0.5 * m * v²"""
+    return 0.5 * projectile.mass_kg * projectile.launch_speed ** 2
+
+
+# ── EXT 3: Optimal angle finder ────────────────────────────
+
+def find_optimal_angle(projectile_class, planet, mass_kg=None):
+    """Test angles 10-80° and find the one giving max range."""
+    best_angle = 0
+    best_range = 0
+
+    for angle in range(10, 85, 5):
+        proj = projectile_class.__new__(projectile_class)
+        Projectile.__init__(proj, launch_speed=projectile_class().launch_speed,
+                            launch_angle_deg=angle)
+        sim = Simulator(planet)
+        trajectory = sim.simulate(proj)
+        range_x = trajectory[-1][1].x
+        if range_x > best_range:
+            best_range = range_x
+            best_angle = angle
+
+    return best_angle, best_range
+
+
+def demo_extensions():
+    print("\n" + "=" * 62)
+    print("         PHASE 2 EXTENSIONS")
+    print("=" * 62)
+
+    # EXT 1: Jupiter
+    projectiles = [Baseball(), Cannonball(), GolfBall()]
+    jupiter = Jupiter()
+    sim = Simulator(jupiter)
+    print(f"\n  {jupiter.name} (g = {jupiter.g} m/s²)")
+    print(f"  {'—' * 56}")
+    for proj in projectiles:
+        trajectory = sim.simulate(proj)
+        result = Simulator.summarize(proj, trajectory)
+        print(
+            f"    {result['name']:12s} | "
+            f"Height: {result['max_height_m']:8.1f} m | "
+            f"Range: {result['range_m']:9.1f} m | "
+            f"Time: {result['flight_time_s']:6.1f} s"
+        )
+
+    # EXT 3: Optimal angles
+    planets = [Earth(), Moon(), Mars(), jupiter]
+    print(f"\n  Optimal Launch Angles:")
+    print(f"  {'—' * 56}")
+    for proj in projectiles:
+        for planet in planets:
+            angle, rng = find_optimal_angle(type(proj), planet)
+            print(f"    {proj.name:12s} on {planet.name:8s} → {angle}° (range: {rng:.1f} m)")
+
+    print(f"\n{'=' * 62}")
+
+
 if __name__ == "__main__":
     demo()
+    demo_extensions()

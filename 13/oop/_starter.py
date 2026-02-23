@@ -147,5 +147,53 @@ def demo():
     pass
 
 
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+# PHASE 2: EXTENSION TODOs
+# You're from the FP group — now extend this OOP code!
+# ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+
+# ============================================================
+# EXT 1: Add a new planet — Jupiter (g = 24.79 m/s²)
+#
+# Create a Jupiter class and include it in the demo output.
+# ============================================================
+
+
+
+# ============================================================
+# EXT 2: Add launch energy calculation
+#
+# Kinetic energy: KE = 0.5 * mass * velocity²
+#
+# You'll need to:
+#   1. Add an abstract property mass_kg to Projectile (the base class)
+#   2. Implement mass_kg in EVERY concrete projectile class:
+#        Baseball: 0.145 kg, Cannonball: 5.0 kg, GolfBall: 0.046 kg
+#   3. Calculate launch KE using: 0.5 * mass * launch_speed²
+#   4. Display the launch energy in the demo output
+#
+# Notice: adding a new PROPERTY means touching the base class
+#         AND every subclass. How does this feel compared to FP?
+# ============================================================
+
+
+
+# ============================================================
+# EXT 3: Find the optimal launch angle for maximum range
+#
+# For each projectile type on each planet:
+#   - Test launch angles from 10° to 80° (step by 5°)
+#   - Simulate each angle and record the range
+#   - Print which angle gives the longest range
+#
+# Hint: you'll need to create new Projectile instances with
+#       different angles. Does the current design make this
+#       easy or hard?
+#
+# (In a vacuum the answer is always 45° — does your sim agree?)
+# ============================================================
+
+
+
 if __name__ == "__main__":
     demo()
